@@ -1,0 +1,49 @@
+# Configuration for PR labeler
+# https://github.com/actions/labeler
+
+"area: api":
+  - changed-files:
+      - any-glob-to-any-file: "apps/api/**/*"
+
+"area: ui":
+  - changed-files:
+      - any-glob-to-any-file: "apps/ui/**/*"
+
+"area: docker":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "Dockerfile"
+          - "docker/**/*"
+          - ".dockerignore"
+
+"area: ci/cd":
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".github/workflows/**/*"
+          - ".github/actions/**/*"
+          - "Makefile"
+
+"area: dependencies":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "package.json"
+          - "pnpm-lock.yaml"
+          - "**/package.json"
+
+"area: documentation":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/*.md"
+          - "docs/**/*"
+
+"area: configuration":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "*.json"
+          - "*.yml"
+          - "*.yaml"
+          - ".github/**/*.yml"
+          - ".github/**/*.yaml"
+          - "tsconfig*.json"
+          - "jest.config.*"
+          - "nx.json"

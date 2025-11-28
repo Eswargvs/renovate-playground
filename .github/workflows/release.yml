@@ -1,0 +1,49 @@
+name: release
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        type: string
+        required: true
+        description: Version number (x.y.z)
+
+jobs:
+  build:
+    uses: './.github/workflows/build.yml'
+    with:
+      version: ${{ inputs.version }}
+      dockerPublish: false
+
+  create-release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          echo "## Changes in this Release" > CHANGELOG.md
+          prev_tag=$(git describe --tags --abbrev=0 2>/dev/null || true)
+          if [ -n "$prev_tag" ]; then
+            git log --pretty=format:"- %s (%h)" "$prev_tag"..HEAD >> CHANGELOG.md
+          else
+            git log --pretty=format:"- %s (%h)" >> CHANGELOG.md
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ inputs.version }}
+          name: Release v${{ inputs.version }}
+          body_path: CHANGELOG.md
+          draft: false
+          prerelease: false
+          generate_release_notes: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,12 @@
+name: ci
+on:
+  push:
+    branches: [main, develop]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    uses: './.github/workflows/build.yml'
+    with:
+      dockerPublish: false

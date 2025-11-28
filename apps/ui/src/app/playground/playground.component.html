@@ -1,0 +1,89 @@
+<div class="container-fluid p-4">
+  <div class="row">
+    <!-- Left side: Configuration -->
+    <div class="col-md-6">
+      <h2 class="text-xl font-semibold mb-2">Configuration</h2>
+      <form [formGroup]="renovateForm" (ngSubmit)="runRenovate()">
+        <div class="mb-3">
+          <label for="repositoryUrl" class="form-label">Repository URL</label>
+          <input id="repositoryUrl" type="text" formControlName="repositoryUrl" class="form-control" placeholder="https://github.com/owner/repo">
+          <div class="form-text">Enter the GitHub repository URL to test Renovate on</div>
+        </div>
+        <div class="mb-3">
+          <label for="githubToken" class="form-label">GitHub Token</label>
+          <input id="githubToken" type="password" formControlName="githubToken" class="form-control" placeholder="ghp_...">
+          <div class="form-text">Personal access token with repository access</div>
+        </div>
+        <div class="mb-3">
+          <label for="renovateConfig" class="form-label">Renovate Configuration (JSON)</label>
+          <textarea id="renovateConfig" formControlName="renovateConfig" rows="15" class="form-control"></textarea>
+        </div>
+        <button type="submit" [disabled]="isRunning" class="btn btn-primary">
+          {{ isRunning ? 'Running...' : 'Run Renovate' }}
+        </button>
+      </form>
+    </div>
+
+    <!-- Right side: Logs -->
+    <div class="col-md-6">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <h2 class="text-xl font-semibold mb-0">Live Logs</h2>
+        <div class="d-flex align-items-center">
+          <div *ngIf="isRunning" class="spinner-border spinner-border-sm text-primary me-2" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <span class="badge bg-secondary">{{ logs.length }} entries</span>
+        </div>
+      </div>
+      <div #logContainer class="log-container" (scroll)="checkScrollPosition()">
+        <div *ngFor="let log of logs; let i = index"
+             class="log-entry"
+             [ngClass]="getLogClass(log)">
+          <div class="log-content">
+            <span class="log-icon">{{ getLogIcon(log) }}</span>
+            <span class="log-timestamp">{{ log.time }}</span>
+            <span class="log-message">{{ getLogMessage(log) }}</span>
+          </div>
+        </div>
+        <div *ngIf="logs.length === 0" class="no-logs-message">
+          <i class="bi bi-terminal"></i>
+          <span>Waiting for logs...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom section: Dependencies Table -->
+  <div class="row mt-4">
+    <div class="col-12">
+      <h2 class="text-xl font-semibold mb-2">Discovered Dependencies</h2>
+      <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th>Type</th>
+            <th>Dependency</th>
+            <th>Current Version</th>
+            <th>New Version</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let dep of dependencies">
+            <td>{{ dep.type }}</td>
+            <td>{{ dep.name }}</td>
+            <td>{{ dep.currentVersion }}</td>
+            <td>{{ dep.newVersion }}</td>
+            <td>
+              <span *ngIf="dep.status === 'discovered'" class="badge bg-info">Discovered</span>
+              <span *ngIf="dep.status === 'update-available'" class="badge bg-success">Update Available</span>
+              <span *ngIf="!dep.status" class="badge bg-secondary">Unknown</span>
+            </td>
+          </tr>
+          <tr *ngIf="dependencies.length === 0">
+            <td colspan="5" class="text-center">No dependencies updated yet.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
