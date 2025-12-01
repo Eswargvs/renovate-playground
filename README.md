@@ -64,7 +64,7 @@ pnpm start
 
 Access at `http://localhost:4200` (UI with hot reload) or `http://localhost:8080` (API)
 
-## �� Usage
+## 📖 Usage
 
 ### Using the Playground
 
