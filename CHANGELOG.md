@@ -1,3 +1,13 @@
+## [1.0.2](https://github.com/AmadeusITGroup/renovate-playground/compare/v1.0.1...v1.0.2) (2025-12-01)
+
+### Bug Fixes
+
+* usage guide line in README.md ([684b9dd](https://github.com/AmadeusITGroup/renovate-playground/commit/684b9dd86b571bf89e322b9b6cbe17356404d418))
+
+### Documentation
+
+* improve README with better structure, demo GIF, and Docker quick start ([65c9d87](https://github.com/AmadeusITGroup/renovate-playground/commit/65c9d87a004f448ca526f6ff307e6e8b2b775ce3))
+
 ## [1.0.1](https://github.com/AmadeusITGroup/renovate-playground/compare/v1.0.0...v1.0.1) (2025-11-28)
 
 ### Bug Fixes
