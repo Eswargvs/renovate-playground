@@ -1,3 +1,9 @@
+## [1.1.0](https://github.com/AmadeusITGroup/renovate-playground/compare/v1.0.2...v1.1.0) (2025-12-03)
+
+### Features
+
+* add Renovate GitHub Action for automated dependency updates ([363c03f](https://github.com/AmadeusITGroup/renovate-playground/commit/363c03f3c0cac885fea5e3cd4db023194e138b14))
+
 ## [1.0.2](https://github.com/AmadeusITGroup/renovate-playground/compare/v1.0.1...v1.0.2) (2025-12-01)
 
 ### Bug Fixes
